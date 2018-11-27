@@ -1,1 +1,1 @@
-# project-2_list-pagination-and-filtering
+# Team Treehouse Fullstack JS TechDegree Project-2_List-Pagination-And-Filtering
