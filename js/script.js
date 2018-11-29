@@ -19,11 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
    scoped to that function.
 ***/
 
+  const pageHeader = document.querySelector('.page-header cf');
   const list = document.querySelector('.student-list');
-  window.addEventListener('click', () => {
-    list.style.display = 'none';
-  })
-  console.log(list.children.length);
+
 /***
    Create the `showPage` function to hide all of the items in the
    list except for the ten you want to show.
@@ -47,7 +45,34 @@ document.addEventListener('DOMContentLoaded', () => {
           list[i].style.display = 'block';
         }
       }
-
+      else if (page === 2) {
+        for (let i = 10; i < 20; i += 1) {
+          list[i].style.display = 'block';
+        }
+      }
+      else if (page === 3) {
+        for (let i = 20; i < 30; i += 1) {
+          list[i].style.display = 'block';
+        }
+      }
+      else if (page === 4) {
+        for (let i = 30; i < 40; i += 1) {
+          list[i].style.display = 'block';
+        }
+      }
+      else if (page === 5) {
+        for (let i = 40; i < 50; i += 1) {
+          list[i].style.display = 'block';
+        }
+      }
+      else if (page === 6) {
+        for (let i = 50; i < 55; i += 1) {
+          list[i].style.display = 'block';
+        }
+      }
+      else {
+        list.style.display = 'none';
+      }
     })
   }
 
@@ -57,8 +82,17 @@ document.addEventListener('DOMContentLoaded', () => {
 ***/
 
   const appendPageLinks = (list) => {
+    let paginationDiv = createElement('div');
+    pageHeader.appendChild(paginationDiv);
+    let paginationUL = createElement('ul');
+    paginationDiv.appendChild(paginationUL);
+
     let maxPageNumber = math.ceil(list.children.length / 10);
-    
+    for (let i = 1; i <= maxPageNumber; i += 1) {
+      let paginationLI = createElement('li');
+      
+    }
+
   }
 
 
