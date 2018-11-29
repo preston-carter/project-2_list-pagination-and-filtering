@@ -20,7 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
 ***/
 
   const pageDiv = document.querySelector('.page');
-  const list = document.querySelector('.student-list');
+  const studentList = document.querySelector('.student-list');
+  const students = studentList.children;
 
 /***
    Create the `showPage` function to hide all of the items in the
@@ -38,9 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
 ***/
 
   const showPage = (list, page) => {
-
-    page.addEventListener('click', () => {
-      if (page === 1) {
+    studentList.style.display = 'none';
+    if (page === 1) {
         for (let i = 0; i < 10; i += 1) {
           list[i].style.display = 'block';
         }
@@ -70,10 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
           list[i].style.display = 'block';
         }
       }
-      else {
-        list.style.display = 'none';
-      }
-    })
   }
 
 /***
@@ -84,25 +80,30 @@ document.addEventListener('DOMContentLoaded', () => {
   const appendPageLinks = (list) => {
     let paginationDiv = document.createElement('div');
     pageDiv.appendChild(paginationDiv);
+    paginationDiv.ClassName = 'pagination';
     let paginationUL = document.createElement('ul');
     paginationDiv.appendChild(paginationUL);
 
-    let maxPageNumber = Math.ceil(list.children.length / 10);
+    let maxPageNumber = Math.ceil(list.length / 10);
     for (let i = 1; i <= maxPageNumber; i += 1) {
       let paginationLI = document.createElement('li');
       paginationUL.appendChild(paginationLI);
       let paginationLink = document.createElement('a');
+      paginationLink.href = i;
       paginationLI.appendChild(paginationLink);
-      let paginationHREF = document.createAttribute('href');
-      paginationHREF.value = i;
-      paginationLink.setAttributeNode(paginationHREF);
+      paginationLI.addEventListener('click', (e) => {
+        showPage(list, i);
+        for (let i = 1; i <= maxPageNumber; i += 1) {
+          paginationLink[i].classList.remove('active');
+        }
+        e.target.ClassName = 'active';
+      })
     }
 
   }
 
-  let page = 1;
-  appendPageLinks(list);
-  showPage(list, page);
+  appendPageLinks(studentList);
+  showPage(students, 1);
 
 
 })
