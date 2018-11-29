@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
    scoped to that function.
 ***/
 
-  const pageHeader = document.querySelector('.page-header cf');
+  const pageDiv = document.querySelector('.page');
   const list = document.querySelector('.student-list');
 
 /***
@@ -82,18 +82,27 @@ document.addEventListener('DOMContentLoaded', () => {
 ***/
 
   const appendPageLinks = (list) => {
-    let paginationDiv = createElement('div');
-    pageHeader.appendChild(paginationDiv);
-    let paginationUL = createElement('ul');
+    let paginationDiv = document.createElement('div');
+    pageDiv.appendChild(paginationDiv);
+    let paginationUL = document.createElement('ul');
     paginationDiv.appendChild(paginationUL);
 
-    let maxPageNumber = math.ceil(list.children.length / 10);
+    let maxPageNumber = Math.ceil(list.children.length / 10);
     for (let i = 1; i <= maxPageNumber; i += 1) {
-      let paginationLI = createElement('li');
-      
+      let paginationLI = document.createElement('li');
+      paginationUL.appendChild(paginationLI);
+      let paginationLink = document.createElement('a');
+      paginationLI.appendChild(paginationLink);
+      let paginationHREF = document.createAttribute('href');
+      paginationHREF.value = i;
+      paginationLink.setAttributeNode(paginationHREF);
     }
 
   }
+
+  let page = 1;
+  appendPageLinks(list);
+  showPage(list, page);
 
 
 })
