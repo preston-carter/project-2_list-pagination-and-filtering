@@ -22,6 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const pageDiv = document.querySelector('.page');
   const studentList = document.querySelector('.student-list');
   const students = studentList.children;
+  const startPage = 1;
+  const pageStudentCount = 10;
 
 /***
    Create the `showPage` function to hide all of the items in the
@@ -39,37 +41,17 @@ document.addEventListener('DOMContentLoaded', () => {
 ***/
 
   const showPage = (list, page) => {
-    studentList.style.display = 'none';
-    if (page === 1) {
-        for (let i = 0; i < 10; i += 1) {
-          list[i].style.display = 'block';
-        }
+    const firstIndex = (page * pageStudentCount) - pageStudentCount;
+    const lastIndex = firstIndex + pageStudentCount - 1;
+    for (let i = 0; i < list.length; i += 1) {
+      if (i >= firstIndex && i <= lastIndex) {
+        list[i].style.display = 'block';
       }
-      else if (page === 2) {
-        for (let i = 10; i < 20; i += 1) {
-          list[i].style.display = 'block';
-        }
+      else {
+        list[i].style.display = 'none';
       }
-      else if (page === 3) {
-        for (let i = 20; i < 30; i += 1) {
-          list[i].style.display = 'block';
-        }
-      }
-      else if (page === 4) {
-        for (let i = 30; i < 40; i += 1) {
-          list[i].style.display = 'block';
-        }
-      }
-      else if (page === 5) {
-        for (let i = 40; i < 50; i += 1) {
-          list[i].style.display = 'block';
-        }
-      }
-      else if (page === 6) {
-        for (let i = 50; i < 55; i += 1) {
-          list[i].style.display = 'block';
-        }
-      }
+    }
+    return list;
   }
 
 /***
@@ -78,33 +60,34 @@ document.addEventListener('DOMContentLoaded', () => {
 ***/
 
   const appendPageLinks = (list) => {
-    let paginationDiv = document.createElement('div');
+
+    const maxPageNumber = Math.ceil(list.length / pageStudentCount);
+    const paginationDiv = document.createElement('div');
     pageDiv.appendChild(paginationDiv);
-    paginationDiv.ClassName = 'pagination';
-    let paginationUL = document.createElement('ul');
+    paginationDiv.className = 'pagination';
+    const paginationUL = document.createElement('ul');
     paginationDiv.appendChild(paginationUL);
 
-    let maxPageNumber = Math.ceil(list.length / 10);
     for (let i = 1; i <= maxPageNumber; i += 1) {
-      let paginationLI = document.createElement('li');
+      const paginationLI = document.createElement('li');
       paginationUL.appendChild(paginationLI);
-      let paginationLink = document.createElement('a');
-      paginationLink.href = i;
+      const paginationLink = document.createElement('a');
+      paginationLink.href = '#';
+      paginationLink.textContent = i;
       paginationLI.appendChild(paginationLink);
-      paginationLI.addEventListener('click', (e) => {
-        showPage(list, i);
-        for (let i = 1; i <= maxPageNumber; i += 1) {
-          paginationLink[i].classList.remove('active');
+      paginationLink.addEventListener('click', (e) => {
+        const pageNumber = e.target.textContent;
+        showPage(students, pageNumber);
+        for (let i = 0; i <= paginationLink.length; i += 1) {
+          paginationLI[i].firstChild.classList.remove('active');
         }
-        e.target.ClassName = 'active';
+        e.target.className = 'active';
       })
     }
-
+    return showPage(students, startPage);
   }
 
-  appendPageLinks(studentList);
-  showPage(students, 1);
-
+  appendPageLinks(students);
 
 })
 // Remember to delete the comments that came with this file, and replace them with your own code comments.
