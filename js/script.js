@@ -77,9 +77,10 @@ document.addEventListener('DOMContentLoaded', () => {
       paginationLI.appendChild(paginationLink);
       paginationLink.addEventListener('click', (e) => {
         const pageNumber = e.target.textContent;
+        const activeLinks = paginationLI.children;
         showPage(students, pageNumber);
-        for (let i = 0; i <= paginationLink.length; i += 1) {
-          paginationLI[i].firstChild.classList.remove('active');
+        for (let i = 0; i <= paginationLI.length; i += 1) {
+          activeLinks[i].className = '';
         }
         e.target.className = 'active';
       })
