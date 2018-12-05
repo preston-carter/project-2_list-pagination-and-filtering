@@ -21,6 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
   //Create constants for the initial page data to display and max students to display per page
   const startPage = 1;
   const pageStudentCount = 10;
+  //Create/append the div element to hold the pagination links
+  const paginationDiv = document.createElement('div');
+  pageDiv.appendChild(paginationDiv);
+  //Add the pagination class to style properly
+  paginationDiv.className = 'pagination';
+  //Create/append the ul element to hold the pagination links
+  const paginationUL = document.createElement('ul');
+  paginationDiv.appendChild(paginationUL);
 
 /***
    Create the `showPage` function to hide all of the items in the
@@ -51,14 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const appendPageLinks = (list) => {
     //Calculate the max required pagination links
     const maxPageNumber = Math.ceil(list.length / pageStudentCount);
-    //Create/append the div element to hold the pagination links
-    const paginationDiv = document.createElement('div');
-    pageDiv.appendChild(paginationDiv);
-    //Add the pagination class to style properly
-    paginationDiv.className = 'pagination';
-    //Create/append the ul element to hold the pagination links
-    const paginationUL = document.createElement('ul');
-    paginationDiv.appendChild(paginationUL);
     //Loop through required number of pagination links and create li/a tags and the necessary event listener
     for (let i = 1; i <= maxPageNumber; i += 1) {
       //Create/append the li element to hold the pagination links
@@ -69,19 +69,29 @@ document.addEventListener('DOMContentLoaded', () => {
       paginationLink.href = '#';
       paginationLink.textContent = i;
       paginationLI.appendChild(paginationLink);
-      //Create event listener to run showPage when each link is clicked by the user
-      paginationLink.addEventListener('click', (e) => {
-        const pageNumber = e.target.textContent;
-        showPage(students, pageNumber);
-        //Loop through pagination links to remove 'active' class from each and then add to the clicked link
-        for (let i = 0; i <= paginationLink.length; i += 1) {
-          paginationLink[i].classList.remove('active');
-        }
-        e.target.className = 'active';
-      })
+      //To help with initial run, add a conditional to set the first page link to active
+      if (i === 1) {
+        paginationLink.className = 'active';
+      }
     }
     return showPage(students, startPage);
   }
+
+/***
+   Create event listener to display the appropriate student list and run our appendPageLinks func!
+***/
+
+  //Create event listener to run showPage when each link is clicked by the user
+  paginationDiv.addEventListener('click', (e) => {
+    let pageNumber = e.target.textContent;
+    const updateLinks = document.querySelectorAll('.pagination ul li a');
+    showPage(students, pageNumber);
+    //Loop through pagination links to remove 'active' class from each and then add to the clicked link
+    for (let i = 0; i < updateLinks.length; i += 1) {
+      updateLinks[i].classList.remove('active');
+    }
+    e.target.className = 'active';
+  })
 
   //Append the appropriate number of pagination links based on our student list!
   appendPageLinks(students);
